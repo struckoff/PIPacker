@@ -12,7 +12,7 @@ dispatcher = updater.dispatcher
 
 def start(bot, update):
     print(update.effective_user)
-    bot.send_message(chart_id=update.message.chat_id, text='Sup, wanna some packages ?')
+    bot.send_message(chat_id=update.message.chat_id, text='Sup, wanna some packages ?')
 
 
 
