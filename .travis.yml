@@ -1,5 +1,0 @@
-language: bash
-
-deploy:
-  provider: script
-  script: hostname
