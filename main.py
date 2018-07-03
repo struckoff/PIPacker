@@ -13,8 +13,8 @@ logging.basicConfig(
 updater = t.Updater(token='608719426:AAGlxr8ooxbwmuCsFZLVZjXNVdLwB9YdVPQ')
 dispatcher = updater.dispatcher
 
-def access_wrapper(bot, update):
-    def wrapper(func):
+def access_wrapper(func):
+    def wrapper(bot, update):
         if update.effective_user in GRANT_ACCESS:
             return func(bot, update)
         else:
