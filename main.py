@@ -1,21 +1,21 @@
 import logging
 import telegram.ext as t
 import packager
+import os
 
-GRANT_ACCESS = ('SoHuman',)
-
+GRANT_ACCESS = (os.environ['TELEGRAM_USERNAME'],)
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', 
     level=logging.INFO
     )
 
-updater = t.Updater(token='608719426:AAGlxr8ooxbwmuCsFZLVZjXNVdLwB9YdVPQ')
+updater = t.Updater(token=os.environ['TELEGRAM_BOT_API'])
 dispatcher = updater.dispatcher
 
 def access_wrapper(func):
     def wrapper(bot, update):
-        if update.effective_user in GRANT_ACCESS:
+        if update.effective_user['username'] in GRANT_ACCESS:
             return func(bot, update)
         else:
             bot.send_message(chat_id=update.message.chat_id, text='I don`t know you')
@@ -26,7 +26,6 @@ def access_wrapper(func):
 def start(bot, update):
     print(update.effective_user)
     bot.send_message(chat_id=update.message.chat_id, text='Sup, wanna some packages ?')
-
 
 
 start_handler = t.CommandHandler('start', start)
