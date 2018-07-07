@@ -3,15 +3,19 @@ import telegram.ext as t
 import packager
 import os
 
-GRANT_ACCESS = (os.environ['TELEGRAM_USERNAME'],)
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', 
     level=logging.INFO
     )
 
-updater = t.Updater(token=os.environ['TELEGRAM_BOT_API'])
-dispatcher = updater.dispatcher
+GRANT_ACCESS = (os.getenv('TELEGRAM_USERNAME'),)
+TOKEN = os.getenv('TELEGRAM_BOT_API')
+
+def make_updater():
+    return t.Updater(token=TOKEN)
+
+updater = make_updater() 
 
 def access_wrapper(func):
     def wrapper(bot, update):
@@ -29,6 +33,7 @@ def start(bot, update):
 
 
 start_handler = t.CommandHandler('start', start)
-dispatcher.add_handler(start_handler)
+updater.dispatcher.add_handler(start_handler)
 
-updater.start_polling()
+if __name__ == '__main__':
+    updater.start_polling()

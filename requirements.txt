@@ -1,3 +1,8 @@
 callable-pip==1.0.0
 packaging==16.8
 python-telegram-bot==10.1.0
+pytest==3.6.3
+pytest-cov==2.5.1
+pytest-html==1.19.0
+pytest-metadata==1.7.0
+pytest-quickcheck==0.8.3
