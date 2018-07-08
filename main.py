@@ -42,7 +42,7 @@ def prepare_package_handler(bot, update):
     logging.info(package_name)
     if package_name is not None and len(package_name) > 0:
         zip_path = prepare_package(package_name)
-        bot.send_document(chat_id=update.message.chat_id, document=zip_path)
+        bot.send_document(chat_id=update.message.chat_id, document=open(zip_path, 'rb'))
     else:
         bot.send_message(chat_id=update.message.chat_id, text='Something wrong')
 
