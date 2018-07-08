@@ -10,4 +10,8 @@ class TestTelegramConnection:
         assert(response.ok == True)
         assert(response.json()['ok'] == True)
     def test_updater(self):
-        assert(updater.running)
+        try:
+            updater.start_polling()
+            assert(updater.running)
+        finally:
+            updater.stop()
