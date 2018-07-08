@@ -16,7 +16,7 @@ class TestDownload_package:
 class TestPack:
     package = 'requests'
     download_source = download_package(package, 'packages')
-    result = pack(package, download_package)
+    result = pack(package, download_source)
     def test_result_is_valid_path(self):
         assert(self.result == f'{os.getcwd()}{os.sep}{self.download_source}.zip')
     def test_is_file(self):
