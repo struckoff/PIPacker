@@ -48,7 +48,7 @@ def prepare_package_handler(bot, update):
 
 
 updater.dispatcher.add_handler(t.CommandHandler('start', start_handler))
-updater.dispatcher.add_handler(t.CallbackQueryHandler(prepare_package_handler))
+updater.dispatcher.add_handler(t.MessageHandler(t.Filters.text, callback=prepare_package_handler))
 
 if __name__ == '__main__':
     updater.start_polling()
