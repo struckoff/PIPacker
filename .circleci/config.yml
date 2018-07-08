@@ -5,7 +5,7 @@
 version: 2
 
 jobs:
-  build: # runs not using Workflows must have a `build` job as entry point
+  tests: # runs not using Workflows must have a `build` job as entry point
     working_directory: ~/circleci_pipacker # directory where steps will run
     docker: # run the steps with Docker
       - image: circleci/python:3.6.1 # ...with this image as the primary container; this is where all `steps` will run
@@ -33,13 +33,15 @@ jobs:
       - run:
           name: Deploy Over SSH
           command: |
-            ssh -p443 $SSH_USER@$SSH_HOST "sh $APP_CONFIG_DIR/deploy.sh"
+            ssh -p443 $SSH_USER@$SSH_HOST "TELEGRAM_USERNAME=$TELEGRAM_USERNAME TELEGRAM_BOT_API=$TELEGRAM_BOT_API sh $APP_CONFIG_DIR/deploy.sh"
 workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build
+      - tests
       - deploy:
+          requires:
+            - tests
           filters:
             branches:
               only: master
