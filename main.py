@@ -43,10 +43,12 @@ def prepare_package_handler(bot, update):
     if package_name is not None and len(package_name) > 0:
         zip_path = prepare_package(package_name)
         bot.send_document(chat_id=update.message.chat_id, document=zip_path)
+    else:
+        bot.send_message(chat_id=update.message.chat_id, text='Something wrong')
 
 
 updater.dispatcher.add_handler(t.CommandHandler('start', start_handler))
-updater.dispatcher.add_handler(t.Handler(prepare_package_handler))
+updater.dispatcher.add_handler(t.CallbackQueryHandler(prepare_package_handler))
 
 if __name__ == '__main__':
     updater.start_polling()
