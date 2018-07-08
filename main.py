@@ -15,7 +15,7 @@ TOKEN = os.getenv('TELEGRAM_BOT_API')
 def make_updater():
     return t.Updater(token=TOKEN)
 
-updater = make_updater() 
+updater = make_updater()
 
 def access_wrapper(func):
     def wrapper(bot, update):
@@ -28,7 +28,6 @@ def access_wrapper(func):
 
 @access_wrapper
 def start(bot, update):
-    print(update.effective_user)
     bot.send_message(chat_id=update.message.chat_id, text='Sup, wanna some packages ?')
 
 
@@ -37,3 +36,6 @@ updater.dispatcher.add_handler(start_handler)
 
 if __name__ == '__main__':
     updater.start_polling()
+    if not updater.running:
+        updater.stop()
+        exit(1)
