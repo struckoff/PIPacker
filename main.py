@@ -2,6 +2,7 @@ import logging
 import telegram.ext as t
 import packager
 import os
+import packager
 
 
 logging.basicConfig(
@@ -27,15 +28,27 @@ def access_wrapper(func):
 
 
 @access_wrapper
-def start(bot, update):
+def start_handler(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text='Sup, wanna some packages ?')
 
+def prepare_package(package_name):
+    package_source = packager.download_package(package_name, 'packages')
+    zip_path = packager.pack(package_name, package_source)
+    return zip_path
 
-start_handler = t.CommandHandler('start', start)
-updater.dispatcher.add_handler(start_handler)
+@access_wrapper
+def prepare_package_handler(bot, update):
+    package_name = update.message.text
+    logging.info(package_name)
+    if package_name is not None and len(package_name) > 0:
+        zip_path = prepare_package(package_name)
+        bot.send_document(chat_id=update.message.chat_id, document=zip_path)
+
+
+updater.dispatcher.add_handler(t.CommandHandler('start', start_handler))
+updater.dispatcher.add_handler(t.Handler(prepare_package_handler))
 
 if __name__ == '__main__':
     updater.start_polling()
     if not updater.running:
-        updater.stop()
         exit(1)

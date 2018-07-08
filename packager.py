@@ -8,9 +8,3 @@ def download_package(name, paent_dir):
 
 def pack(name, source_path):
     return shutil.make_archive(name, 'zip', root_dir=source_path)
-
-if __name__ == '__main__':
-    name = 'pip-save'
-    path = download_package(name, 'packages')
-    p = pack(name, path)
-    print(p)
